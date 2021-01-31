@@ -37,10 +37,10 @@ void FindingCase(int row,  vector<bool> availableNum, vector<int> currentMap){
     if(availableNum[i] == true){ 
       availableNum[i] = false; 
       currentMap[row] = i;
-      if(CheckingAvailablity(int row, currentMap)){
-        FindingCase(++row, availableNum, currentMap);
+      if(CheckingAvailablity(row, currentMap) == true){
+        FindingCase(row+1, availableNum, currentMap);
       } 
-      availableNum[i] = false;
+      availableNum[i] = true;
     }
   }
 }
