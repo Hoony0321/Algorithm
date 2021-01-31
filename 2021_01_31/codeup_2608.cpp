@@ -5,7 +5,7 @@ using namespace std;
 
 //codeup_2608 : 동아리 회장 선거 - depth first search(dfs)
 
-int number_of_voter;5
+int number_of_voter;
 
 void FindingAllCase(int index, vector<char> currentVote){
   if(index == number_of_voter){
