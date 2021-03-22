@@ -3,16 +3,16 @@
 #include<deque>
 using namespace std;
 
-void SpinningGear(int number, int direction, deque<int>* gears){
+void SpinningGear(int number, int direction, int prev,deque<int>* gears){
   bool spin_right = false;
   bool spin_left = false;
 
   //왼쪽
-  if(number-1 >= 0){
+  if(number-1 >= 0 && number-1 != prev){
     if(gears[number-1][2] != gears[number][6]) spin_left = true;;
   }
   //오른쪽
-  if(number+1 <= 7){
+  if(number+1 <= 3 && number+1 != prev){
     if(gears[number+1][6] != gears[number][2]) spin_right = true;
   }
 
@@ -29,11 +29,11 @@ void SpinningGear(int number, int direction, deque<int>* gears){
     gears[number].push_back(element_front);
   }
 
-
+  //===주변===//
   //왼쪽
-  if(spin_left){SpinningGear(number-1,direction==1?-1:1,gears);}
+  if(spin_left){SpinningGear(number-1,direction==1?-1:1,number,gears);}
   //오른쪽
-  if(spin_right){SpinningGear(number+1,direction==1?-1:1,gears);}
+  if(spin_right){SpinningGear(number+1,direction==1?-1:1,number,gears);}
 
 }
 
@@ -61,7 +61,7 @@ int main(){
     int number,direction;
     cin >> number >> direction;
 
-    SpinningGear(number-1, direction, gears);
+    SpinningGear(number-1, direction,-1, gears);
   }
 
   //결과
@@ -71,8 +71,6 @@ int main(){
   }
 
   cout << point << "\n";
-
-
 
 
 }
