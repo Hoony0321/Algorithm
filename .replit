@@ -1,2 +1,2 @@
 language = "bash"
-run = "clang++-7 -pthread -std=c++17 -o main 2021_03_23/baekjoon.cpp"
+run = "clang++-7 -pthread -std=c++17 -o main 2021_03_24/baekjoon.cpp"
