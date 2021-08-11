@@ -1,2 +1,4 @@
 language = "bash"
-run = "clang++-7 -pthread -std=c++17 -o main 2021_07/2021_07_21/code.cpp"
+run = "python 2021_08/2021_08_11/code.py"
+
+#run = "clang++-7 -pthread -std=c++17 -o main 2021_08/2021_08_11/code.py"
