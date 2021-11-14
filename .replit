@@ -1,4 +1,4 @@
 language = "bash"
-run = "python 2021_11/2021_11_12/code.py"
+run = "python 2021_11/2021_11_14/code.py"
 
 #run = "clang++-7 -pthread -std=c++17 -o main 2021_08/2021_08_11/code.py"
