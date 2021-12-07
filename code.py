@@ -1,9 +1,9 @@
-#baekjoon
+#baekjoon_1753_최소경로
 
 #=== import module ===#
 
-#=== Function define ===#
-
 #=== variable declare ===#
+
+#=== Function define ===#
 
 #=== main function ===#
