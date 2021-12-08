@@ -1,4 +1,4 @@
-#baekjoon_1753_최소경로
+#baekjoon
 
 #=== import module ===#
 
