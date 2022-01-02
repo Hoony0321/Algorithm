@@ -1,5 +1,5 @@
 #baekjoon_2098_외판원 (다시 한번 해보기)
-
+#역산하듯이 올라가면서 dp값 채우는 방식 꼭 기억해야할 것!
 #=== import module ===#
 
 #=== variable declare ===#
