@@ -21,18 +21,43 @@ def TurnDirection(d):
     return 4;
   else: return 3;
 
-def MoveShark(size):
+def MoveShark(size,be_eaten_shark_size):
+  global R,C;
   y,x,s,d = sharkArr[size];
   ny = y; nx = x;
-  for _ in range(s):
-    ny += dyx[d][0]; nx += dyx[d][1];
-    if not (1 <= ny <= R and 1 <= nx <= C): #맵에서 벗어남. -> 벽에 부딪힘. 방향 바꿔야 함.
-      d = TurnDirection(d);
-      ny += dyx[d][0] * 2; nx += dyx[d][1] * 2; #반대 방향으로 두번 가야지 잘못 간 방향 상쇄.
+
+  if d <= 2: s %= (R-1) * 2;
+  else: s %= (C-1) * 2;
+
+  remain_speed = s;
+  while remain_speed > 0:
+    if d == 1:
+      dy = min(ny - 1, remain_speed);
+      ny -= dy;
+      remain_speed -= dy;
+    elif d == 2:
+      dy = min(R - ny, remain_speed); # 갈 수 있는 거리, 남은 속도
+      ny += dy;
+      remain_speed -= dy;
+    elif d == 3:
+      dx = min(C - nx, remain_speed); # 갈 수 있는 거리, 남은 속도
+      nx += dx;
+      remain_speed -= dx;
+    else:
+      dx = min(nx - 1, remain_speed); # 갈 수 있는 거리, 남은 속도
+      nx -= dx;
+      remain_speed -= dx;
+
+    if d <= 2: 
+      if ny == 1 or ny == R:
+        d = TurnDirection(d);
+    else:
+      if nx == 1 or nx == C :
+        d = TurnDirection(d);
   
   if board[ny][nx] != 0:
     #해당 칸에 상어 존재 -> 사이즈가 작은 상어부터 큰 물고기 순으로 이동하므로 해당 칸에 이미 있는 상어는 현 상어보다 작은 상어.
-    sharkIdx.remove(board[ny][nx]); #상어 잡아 먹음.
+    be_eaten_shark_size.append(board[ny][nx]);
 
   board[ny][nx] = size;
   sharkArr[size] = [ny,nx,s,d];
@@ -44,10 +69,10 @@ def MoveShark(size):
 
 def Fishing(R,C):
   global board;
+  sharkIdx.sort(); #오름 차순 정렬
   fishmenCol = 1; #1에서 최대 C까지 이동
   getWeight = 0; #잡은 상어 무게 합.
   while(fishmenCol <= C):
-    
     # 1.해당 열에서 땅에 가장 가까운 상어 포획
     for row in range(1,R+1): #1부터 R까지 진행
       if board[row][fishmenCol] != 0: #상어 존재 -> 포획
@@ -58,11 +83,13 @@ def Fishing(R,C):
     
     # 2.상어 이동
     board = [[0 for _ in range(C+1)] for _ in range(R+1)]; #이동하기 전 보드 초기화.
-    sharkIdx.sort(); #오름 차순 정렬
+    be_eaten_shark_size = [];
     for size in sharkIdx:
-      MoveShark(size);
+      MoveShark(size,be_eaten_shark_size);
     
-
+    # 3. 먹힌 상어 sharkIdx에서 제거
+    for shark in be_eaten_shark_size:
+      sharkIdx.remove(shark);
     
     fishmenCol += 1;
   
