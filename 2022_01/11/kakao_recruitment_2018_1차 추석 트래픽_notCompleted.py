@@ -20,24 +20,17 @@ def solution(lines): #모든 시간은 mileSecond로 통일
   
   timetable.sort(key=lambda x:x[0]);
 
-  curTimeS = -1;
-  for targetTime in timetable:
-    target_startTime = targetTime[0]; target_endTime = targetTime[1];
-
-    if curTimeS > target_startTime: continue;
-
-    curTimeS = target_startTime;
-    #구간찾기 시작
-    while curTimeS <= target_endTime:
-      count = 0;
-      for other in timetable:
-        if curTimeS <= other[0] and other[1] <= curTimeS +1000: #사이에 존재
-          count += 1;
-      if count > max_count : max_count = count;
-      curTimeS += 1;
-    curTimeS -= 1; #마지막에 증가한 시간은 적용 X -> 아직 탐색 안 함.
+  curTimeS = timetable[0][0];
+  #구간찾기 시작
+  while curTimeS + 1000 <= timetable[-1][1]:
+    count = 0;
+    for other in timetable:
+      if curTimeS <= other[1] and curTimeS + 1000 >= other[0]: #사이에 존재
+        count += 1;
+    if count > max_count : max_count = count;
+    curTimeS += 1000;
   
-  print(max_count);
+
 
 
   
@@ -45,17 +38,6 @@ def solution(lines): #모든 시간은 mileSecond로 통일
 
 
 
-  return 0;
+  return max_count;
 
-solution( [
-"2016-09-15 20:59:57.421 0.351s",
-"2016-09-15 20:59:58.233 1.181s",
-"2016-09-15 20:59:58.299 0.8s",
-"2016-09-15 20:59:58.688 1.041s",
-"2016-09-15 20:59:59.591 1.412s",
-"2016-09-15 21:00:00.464 1.466s",
-"2016-09-15 21:00:00.741 1.581s",
-"2016-09-15 21:00:00.748 2.31s",
-"2016-09-15 21:00:00.966 0.381s",
-"2016-09-15 21:00:02.066 2.62s"
-]);
+print(solution( 	["2016-09-15 01:00:04.002 2.0s", "2016-09-15 01:00:07.000 2s"]));
