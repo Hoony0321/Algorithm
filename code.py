@@ -8,4 +8,4 @@
 
 #=== main function ===#
 
-#re.sub("[\(\[].*?[\)\]]", "", x)
+#bind 'set enable-bracketed-paste off'
