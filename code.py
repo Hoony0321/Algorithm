@@ -7,3 +7,5 @@
 #=== Function define ===#
 
 #=== main function ===#
+
+#re.sub("[\(\[].*?[\)\]]", "", x)
