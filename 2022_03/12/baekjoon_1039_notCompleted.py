@@ -28,13 +28,16 @@ for i in range(M):
     number.append(int(N[i]));
 
 current = 0; #정렬이 안 된 부분
-for _ in range(K):
+action = 1;
+while(action <= K):
 
     #제일 큰 수 찾기
     max_num = -1;
     max_arr = [];
     for i in range(M):
         if number[i] > max_num:
+            if i == current: #이미 제일 높은 숫자가 적절한 자리에 들어가 있음.
+                continue;
             max_num = number[i];
             max_arr.clear();
             max_arr.append(i);
@@ -47,6 +50,15 @@ for _ in range(K):
         if number[i] < max_num:
             inputIdx = i;
             break;
+
+    if inputIdx == -1: #들어갈 자리가 없음. -> #자기보다 작은 숫자가 없음.
+        if (K - action + 1) % 2 == 0 : #남은 횟수가 짝수일 경우
+            break;
+        else:
+            number = Swap(max_arr[-1], max_arr[-1] + 1);
+            break;
+
+    else: current = inputIdx;
 
     #숫자 대입 해보기
     testArr = [];
@@ -63,3 +75,4 @@ for _ in range(K):
         number.append(int(tmpNumber[i]));
 
 print(number);
+
