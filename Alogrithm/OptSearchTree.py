@@ -92,6 +92,19 @@ R = [[0 for _ in range(n+2)] for _ in range(n+2)] #최적 탐색 경로 담을 �
 print(optSearchTree(n,P,A,R))
 printMatrix(R)
 
+rootNode = tree(1,n,R,dataSet)
+tree_arr = []
+in_order(rootNode, tree_arr)
+print(tree_arr)
+
+tree_arr = []
+pre_order(rootNode, tree_arr)
+print(tree_arr)
+
+tree_arr = []
+post_order(rootNode, tree_arr)
+print(tree_arr)
+
 #case 2
 n = 8
 dataSet = [None,'A','B','C','D','E','F','G','H']
@@ -100,3 +113,16 @@ A = [[float('INF') for _ in range(n+2)] for _ in range(n+2)] #최소 탐색 시�
 R = [[0 for _ in range(n+2)] for _ in range(n+2)] #최적 탐색 경로 담을 배열
 print(optSearchTree(n,P,A,R))
 printMatrix(R)
+
+rootNode = tree(1,n,R,dataSet)
+tree_arr = []
+in_order(rootNode, tree_arr)
+print(tree_arr)
+
+tree_arr = []
+pre_order(rootNode, tree_arr)
+print(tree_arr)
+
+tree_arr = []
+post_order(rootNode, tree_arr)
+print(tree_arr)
