@@ -1,10 +1,6 @@
-# 문제 정보 baekjoon_1238 파티
+#다익스트라 알고리즘
+#방향/가중치 있는 그래프에서 특정 노드 위치에서 각 노드 최단경로 찾기
 
-# === import module ===#
-import heapq
-# === variable declare ===#
-
-# === Function define ===#
 def dijkstra(start):
     global N
 
@@ -93,6 +89,7 @@ W[3][2] = 4; W[3][4] = 2;
 W[5][2] = 3; W[5][4] = 1;
 
 dijkstra(1);
+
 
 
 
