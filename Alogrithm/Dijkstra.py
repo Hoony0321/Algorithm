@@ -80,6 +80,7 @@ def dijkstra(start):
 #     fromV,toV,weight = map(int,input().split());
 #     W[fromV][toV] = weight;
 
+# ======== 입력 설정 ==========#
 N = 5; M = 9;#edge 수
 W = [[float('INF') for _ in range(N+1)] for _ in range(N+1)];
 
@@ -88,7 +89,8 @@ W[2][4] = 1
 W[3][2] = 4; W[3][4] = 2;
 W[5][2] = 3; W[5][4] = 1;
 
-dijkstra(1);
+#다익스트라 알고리즘 시작
+dijkstra(1); #시작 노드 번호를 입력 파라미터로 받음.
 
 
 
