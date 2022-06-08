@@ -1,3 +1,4 @@
-arr = [[1,2] , [1,3], [1,4]];
+a = [1,2,3,4,5];
 
-print(1 if [1,1] in arr else 0);
+for elem in a:
+    print(elem)
