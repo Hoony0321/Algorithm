@@ -11,7 +11,6 @@ state_of_std = []
 # === Function define ===#
 def flatten(array): #2차원 배열 -> 1차원 배열
     result = []
-
     for row in array:
         for item in row:
             result.append(item)
