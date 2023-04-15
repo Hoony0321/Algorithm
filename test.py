@@ -1,4 +1,4 @@
-a = [1,2,3,4,5];
+str = "010111"
 
-for elem in a:
-    print(elem)
+print(str.rfind('0'))
+print(str[3])
