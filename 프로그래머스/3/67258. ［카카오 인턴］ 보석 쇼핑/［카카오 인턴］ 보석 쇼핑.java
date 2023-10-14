@@ -21,9 +21,6 @@ class Solution {
                 if(gemMap.get(removeGem) == 0) totalGem -= 1;
             }
             
-            // System.out.println(gemMap);
-            // System.out.println(totalGem);
-            
             // 모든 보석이 포함되어 있는지 확인
             if(totalGem == gemSet.size()) return new int[]{i-size+2,i+1};
             
@@ -45,7 +42,6 @@ class Solution {
         int end = gems.length;
         while(start <= end){
             int mid = (start + end) / 2;
-            // System.out.println(String.format("mid : %d", mid));
             
             // 불가능한 개수
             if(mid < gemSet.size()){
