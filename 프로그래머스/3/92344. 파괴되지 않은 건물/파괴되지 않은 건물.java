@@ -41,15 +41,6 @@ class Solution {
                     skillInfo.type == 1 ? skillInfo.degree : -skillInfo.degree;
         }
         
-        
-        // for(int i = 0; i < sumBoard.length; i++){
-        //     for(int j = 0; j < sumBoard[0].length; j++){
-        //         System.out.print(sumBoard[i][j]);
-        //         System.out.print(" ");
-        //     }
-        //     System.out.println();
-        // }
-        
         // 누적합
         // 행 진행
         for(int i = 0; i < sumBoard[0].length-1; i++){
