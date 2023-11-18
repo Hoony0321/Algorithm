@@ -18,10 +18,8 @@ class Solution {
         
         // 우선순위대로 계산 진행
         for(List<Character> priority : priorities){
-            LinkedList<Long> tmpNumbers = new LinkedList<>();
-            LinkedList<Character> tmpOperands = new LinkedList<>();
-            tmpNumbers.addAll(originNumbers);
-            tmpOperands.addAll(originOperands);
+            LinkedList<Long> tmpNumbers = new LinkedList<>(originNumbers);
+            LinkedList<Character> tmpOperands = new LinkedList<>(originOperands);
             long calculateResult = calculateByPriority(tmpNumbers, tmpOperands, priority);
             answer = Math.max(answer, Math.abs(calculateResult));
         }
