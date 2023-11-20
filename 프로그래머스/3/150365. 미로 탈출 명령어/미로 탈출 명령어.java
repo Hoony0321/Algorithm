@@ -1,14 +1,31 @@
 import java.util.*;
 
 class Solution {
-    char[] dirs;
-    int[][] dxys;
+    char[] dirs = new char[]{'d', 'l', 'r', 'u'};
+    int[][] dxys = new int[][]{{1,0}, {0,-1}, {0,1}, {-1,0}}; 
     int[][] map;
     List<Character> shortestPath = new ArrayList<>();
     
     int targetSize;
     int targetY;
     int targetX;
+    
+    public void initMap(int n, int m){
+        map = new int[n+2][m+2];
+        for(int i = 0; i < n+2; i++){
+            for(int j = 0; j < m+2; j++){
+                if(i < 1 || i > n || j < 1 || j > m){
+                    map[i][j] = -1;
+                }
+            }
+        }
+    }
+    
+    public void initTargetVariable(int r, int c, int k){
+        targetY = r;
+        targetX = c;
+        targetSize = k;
+    }
     
     public void dfs(int y, int x, List<Character> path){
         if(shortestPath.size() != 0) return; // 정답을 구한 경우
@@ -36,27 +53,8 @@ class Solution {
         
     }
     
-    public String solution(int n, int m, int x, int y, int r, int c, int k) {
+    public String getAnswer(){
         String answer = "";
-        
-        map = new int[n+2][m+2];
-        for(int i = 0; i < n+2; i++){
-            for(int j = 0; j < m+2; j++){
-                if(i < 1 || i > n || j < 1 || j > m){
-                    map[i][j] = -1;
-                }
-            }
-        }
-        
-        targetSize = k;
-        targetY = r;
-        targetX = c;
-        
-        dirs = new char[]{'d', 'l', 'r', 'u'};
-        dxys = new int[][]{{1,0}, {0,-1}, {0,1}, {-1,0}};
-        
-        dfs(x,y,new ArrayList<>());
-        
         if(shortestPath.size() == 0){
             return "impossible";
         }
@@ -66,5 +64,14 @@ class Solution {
         }
         
         return answer;
+    }
+    
+    public String solution(int n, int m, int x, int y, int r, int c, int k) {
+        initMap(n,m);
+        initTargetVariable(r,c,k);
+        
+        dfs(x,y,new ArrayList<>());
+        
+        return getAnswer();
     }
 }
