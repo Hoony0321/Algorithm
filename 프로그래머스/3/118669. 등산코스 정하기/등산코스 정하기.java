@@ -2,26 +2,26 @@ import java.util.*;
 
 class Solution {
     
-    public boolean contains(int[] array, int value){
-        for(int num : array){
-            if(value == num) return true;
+    private boolean isGate(int vertex, int[] gates){
+        for(int n : gates){
+            if(vertex == n) return true;
         }
         
         return false;
     }
     
-    public boolean isVisitedAllSummits(int[] summits, boolean[] visited){
-        for(int summit : summits){
-            if(!visited[summit]) return false;
+    private boolean isSummit(int vertex, int[] summits){
+        for(int n : summits){
+            if(vertex == n) return true;
         }
         
-        return true;
+        return false;
     }
     
     public int[] solution(int n, int[][] paths, int[] gates, int[] summits) {
-        List<List<int[]>> graph = new ArrayList<>();
         Arrays.sort(summits);
-        
+        // graph 설정
+        List<List<int[]>> graph = new ArrayList<>();
         for(int i = 0; i < n+1; i++){
             graph.add(new ArrayList<>());
         }
@@ -29,59 +29,73 @@ class Solution {
         for(int[] path : paths){
             int u = path[0];
             int v = path[1];
-            int time = path[2];
+            int weight = path[2];
             
-            if(contains(gates, u) || contains(summits, v)){
-                graph.get(u).add(new int[]{v, time});    
+            // gate인 경우 - 나가는 간선만 존재
+            // summit인 경우 - 들어오는 간선만 존재
+            // 그 외 경우 - 나가는 간선 & 들어오는 간선 모두 존재
+            if(isGate(u, gates) || isSummit(v, summits)){
+                graph.get(u).add(new int[]{v, weight});
             }
-            else if(contains(gates, v) || contains(summits, u)){
-                graph.get(v).add(new int[]{u, time});    
-            } else {
-                graph.get(u).add(new int[]{v, time});
-                graph.get(v).add(new int[]{u, time});    
+            else if(isSummit(u, summits) || isGate(v, gates)){
+                graph.get(v).add(new int[]{u, weight});
+            }
+            else{
+                graph.get(u).add(new int[]{v, weight});
+                graph.get(v).add(new int[]{u, weight});
             }
         }
         
+        // visited 설정
+        boolean[] visited = new boolean[n+1];
+        
+        // dist 설정
+        int[] maxIntensities = new int[n+1];
+        Arrays.fill(maxIntensities, Integer.MAX_VALUE);
+        
+        // queue 설정
         PriorityQueue<int[]> queue = new PriorityQueue<>((e1,e2) -> e1[1] - e2[1]);
         
-        boolean[] visited = new boolean[n+1];
-        int[] intensities = new int[n+1];
-        Arrays.fill(intensities, Integer.MAX_VALUE);
-        
-        // 각 gate에서 산봉우리 지점까지 최단 거리 구하기.
         for(int gate : gates){
-            intensities[gate] = 0;
-            queue.add(new int[]{gate,0});
+            maxIntensities[gate] = 0;
+            queue.add(new int[]{gate, 0});
         }
         
+        // 다익스트라 알고리즘
         while(!queue.isEmpty()){
-            if(isVisitedAllSummits(summits, visited)) break;
             int[] elem = queue.poll();
-            int vertex = elem[0];
-            int curIntensity = elem[1];
-
-            if(visited[vertex]) continue;
-            visited[vertex] = true;
+            int currentVertex = elem[0];
+            int currentMaxIntensity = elem[1];
             
-            for(int[] next : graph.get(vertex)){
-                if(visited[next[0]]) continue;
+            if(visited[currentVertex]) continue;
+            visited[currentVertex] = true;
+            
+            if(isSummit(currentVertex, summits)) continue; // 산봉우리 경우 더 이상 진행 X
+            
+            for(int[] near : graph.get(currentVertex)){
+                int nextVertex = near[0];
+                int nextIntensity = near[1];
+                int nextMaxIntensity = Math.max(currentMaxIntensity, nextIntensity);
                 
-                int nextIntensity = Math.max(curIntensity, next[1]);
-                if(nextIntensity < intensities[next[0]]){
-                    intensities[next[0]] = nextIntensity;    
-                    queue.add(new int[]{next[0], nextIntensity});
-                }
+                if(visited[nextVertex]) continue;
+                if(isGate(nextVertex, gates)) continue; // 게이트는 중간 경유지 X
+                if(maxIntensities[nextVertex] <= nextMaxIntensity) continue;
+                
+                maxIntensities[nextVertex] = nextMaxIntensity;
+                queue.add(new int[]{nextVertex, nextMaxIntensity});
             }
         }
         
-        int[] answer = new int[]{-1, Integer.MAX_VALUE};
+        int minIntensity = Integer.MAX_VALUE;
+        int minIntensitySummitNum = -1;
         for(int summit : summits){
-            if(answer[1] > intensities[summit]){
-                answer[0] = summit;
-                answer[1] = intensities[summit];
+            if(maxIntensities[summit] < minIntensity){
+                minIntensitySummitNum = summit;
+                minIntensity = maxIntensities[summit];
             }
         }
         
-        return answer;
+        
+        return new int[]{minIntensitySummitNum, minIntensity};
     }
 }
