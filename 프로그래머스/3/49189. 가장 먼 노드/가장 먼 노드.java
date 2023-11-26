@@ -2,42 +2,41 @@ import java.util.*;
 
 class Solution {
     public int solution(int n, int[][] edge) {
-           int answer = 0;
+        int count = 0;
         List<List<Integer>> graph = new ArrayList<>();
         
-        for(int i = 0; i < n; i++){
+        for(int i = 0; i < n+1; i++){
             graph.add(new ArrayList<>());
         }
         
-        for(int[] item : edge){
-            int u = item[0]; int v = item[1];
-            graph.get(u-1).add(v-1);
-            graph.get(v-1).add(u-1);
+        for(int[] e : edge){
+            int u = e[0];
+            int v = e[1];
+            graph.get(u).add(v);
+            graph.get(v).add(u);
         }
         
-        boolean[] visited = new boolean[n];
-        Arrays.fill(visited, false);
-        
+        boolean[] visited = new boolean[n+1];
         Queue<Integer> queue = new LinkedList<>();
-        queue.add(0);
-        visited[0] = true;
+        visited[1] = true;
+        queue.add(1);
         
         while(!queue.isEmpty()){
-            int queueSize = queue.size();
-            answer = 0;
-            for(int i = 0; i < queueSize; i++){
-                int u = queue.poll();    
-                answer++;
+            count = 0;
+            int queueCurrentSize = queue.size();
+            for(int i = 0; i < queueCurrentSize; i++){
+                int node = queue.poll();
+                count++;
                 
-                for(int v : graph.get(u)){
-                    if(visited[v]) continue;
-                    visited[v] = true;
-                    queue.add(v);
+                for(int near : graph.get(node)){
+                    if(visited[near]) continue; // 이미 방문한 곳
+                    
+                    visited[near] = true;
+                    queue.add(near);
                 }
             }
         }
         
-        
-        return answer;
+        return count;
     }
 }
