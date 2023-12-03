@@ -45,17 +45,24 @@ class Solution {
             
             for(int i = 0; i < rectangle.length; i++){
                 for(int j = 0; j < rectangle[0].length; j++){
-                    rotatedRectangle[j][i] = rectangle[i][j];
+                    rotatedRectangle[rectangle[0].length - j - 1][i] = rectangle[i][j];
                 }
             }
             
-            for(int i = 0; i < rotatedRectangle.length / 2; i++){
-                for(int j = 0; j < rotatedRectangle[0].length; j++){
-                    int temp = rotatedRectangle[i][j];
-                    rotatedRectangle[i][j] = rotatedRectangle[rotatedRectangle.length - i -1][j];
-                    rotatedRectangle[rotatedRectangle.length - i -1][j] = temp;
-                }
-            }
+            // for(int i = 0; i < rectangle.length; i++){
+            //     for(int j = 0; j < rectangle[0].length; j++){
+            //         rotatedRectangle[j][i] = rectangle[i][j];
+            //     }
+            // }
+            
+//             for(int i = 0; i < rotatedRectangle.length; i++){
+//                 for(int j = 0; j < rotatedRectangle[0].length; j++){
+//                     // int temp = rotatedRectangle[i][j];
+//                     // rotatedRectangle[i][j] = rotatedRectangle[rotatedRectangle.length - i -1][j];
+//                     // rotatedRectangle[rotatedRectangle.length - i -1][j] = temp;
+                    
+//                 }
+//             }
             
             this.h = rotatedRectangle.length;
             this.w = rotatedRectangle[0].length;
@@ -104,19 +111,6 @@ class Solution {
             
             return new int[]{h, w, minY, minX};
         }
-        
-//         public void print(){
-//             System.out.println(String.format("size : %d, w : %d, h : %d", size, w, h));
-//             for(int i = 0; i < h; i++){
-//                 for(int j = 0; j < w; j++){
-//                     System.out.print(rectangle[i][j]);
-//                     System.out.print(" ");
-//                 }
-//                 System.out.println();
-//             }
-            
-//             System.out.println();
-//         }
     }
     
     private void findSection(List<List<int[]>> sections, int[][] map, 
@@ -192,13 +186,11 @@ class Solution {
                 
                 for(int j = 0; j < 4; j++){ // 회전시키면서 블럭이 맞는지 확인
                     tableSectionRectangle.rotate();
-                    // tableSectionRectangle.print();
                     
                     if(tableSectionRectangle.w != gameBoardSectionRectangle.w || 
                       tableSectionRectangle.h != gameBoardSectionRectangle.h) continue;
                     if(!gameBoardSectionRectangle.equals(tableSectionRectangle)) continue;
                     
-                    // System.out.println("correct!!");
                     fillBlockNum += gameBoardSectionRectangle.size;
                     usedTableSectionRectangle[i] = true;
                     isMatch = true;
