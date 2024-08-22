@@ -7,15 +7,11 @@ def solution(people, limit):
     people = deque(people)
     
     while people:
-        answer += 1
-        minW, maxW = people[0], people[-1]
+        w1 = people.pop()
         
-        if(minW + maxW > limit or len(people) == 1):
-            people.pop()
-        else:
-            people.pop()
+        if people and w1 + people[0] <= limit:
             people.popleft()
         
-    
+        answer += 1
     
     return answer
