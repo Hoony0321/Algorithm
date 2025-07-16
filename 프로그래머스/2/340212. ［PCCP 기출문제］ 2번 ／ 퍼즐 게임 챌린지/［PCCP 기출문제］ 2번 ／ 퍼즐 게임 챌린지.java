@@ -1,7 +1,11 @@
 import java.util.*;
 
 class Solution {
-    public boolean checkIsPossible(int[] diffs, int[] times, long limit, int level){
+    private int[] diffs;
+    private int[] times;
+    private long limit;
+    
+    public boolean checkIsPossible(int level){
         long requireTime = 0;
         int n = diffs.length;
         for(int i = 0; i < n; i++){
@@ -16,13 +20,13 @@ class Solution {
         return requireTime <= limit ? true : false;
     }
 
-    public int binarySearch(int[] diffs, int[] times, long limit){
+    public int binarySearch(){
         int left = 1;
         int right = Arrays.stream(diffs).max().getAsInt();
         int minimum = right;
         while(left <= right){
             int mid = (left + right) / 2;
-            if(checkIsPossible(diffs, times, limit, mid)){
+            if(checkIsPossible(mid)){
                 minimum = Math.min(right,mid);
                 right = mid-1;
             }
@@ -35,7 +39,10 @@ class Solution {
     }
     
     public int solution(int[] diffs, int[] times, long limit) {
-        return binarySearch(diffs, times, limit);
+        this.diffs = diffs;
+        this.times = times;
+        this.limit = limit;
+        return binarySearch();
         
     }
 }
