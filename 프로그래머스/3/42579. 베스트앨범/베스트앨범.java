@@ -1,62 +1,54 @@
 import java.util.*;
 
-class GenrePlayItem {
+class Song {
+    int id;
     String genre;
-    int totalPlays;
-    PriorityQueue<int[]> playQueue;
+    int play;
     
-    public GenrePlayItem(String genre){
+    public Song(int id, String genre, int play){
+        this.id = id;
         this.genre = genre;
-        totalPlays = 0;
-        playQueue = new PriorityQueue<int[]>((o1,o2) -> {
-            return o2[1] - o1[1];
-        });
-    }
-    
-    public void addItem(int[] item){
-        this.totalPlays += item[1];
-        playQueue.add(item);
+        this.play = play;
     }
 }
 
 class Solution {
     public int[] solution(String[] genres, int[] plays) {
-        Map<String,GenrePlayItem> genrePlayMap = new HashMap<>();
-        int size = genres.length;
+        Map<String,List<Song>> songMap = new HashMap<>();
         
-        for(int i = 0; i < size; i++){
-            if(genrePlayMap.containsKey(genres[i])){
-                genrePlayMap.get(genres[i]).addItem(new int[]{i,plays[i]});
+        for(int i = 0; i < genres.length; i++){
+            if(!songMap.containsKey(genres[i])){
+                songMap.put(genres[i], new ArrayList<>());
             }
-            else{
-                genrePlayMap.put(genres[i], new GenrePlayItem(genres[i]));
-                genrePlayMap.get(genres[i]).addItem(new int[]{i,plays[i]});
-            }
+            songMap.get(genres[i]).add(new Song(i, genres[i], plays[i]));
         }
         
-        PriorityQueue<GenrePlayItem> genreOrderQueue = new PriorityQueue<GenrePlayItem>((o1,o2) -> {
-            return o2.totalPlays - o1.totalPlays;
-        });
-        for(Map.Entry<String,GenrePlayItem> item : genrePlayMap.entrySet()){
-            genreOrderQueue.add(item.getValue());
-        }
-        
-        List<Integer> answerList = new ArrayList<>();
-        while(!genreOrderQueue.isEmpty()){
-            PriorityQueue<int[]> playQueue = genreOrderQueue.poll().playQueue;;
+        // songMap play 순으로 정렬
+        Map<String,Integer> playMap = new HashMap<>();
+        for(String genre : songMap.keySet()){
+            songMap.get(genre).sort((a,b) -> Integer.compare(b.play, a.play));
             
-            int count = 0;
-            while(!playQueue.isEmpty() && count < 2){
-                answerList.add(playQueue.poll()[0]);
-                count++;
+            int totalPlay = 0;
+            for(Song song : songMap.get(genre)){
+                totalPlay += song.play;
+            }
+            
+            playMap.put(genre,totalPlay);
+        }
+        
+        // 많이 재생된 genre 순으로 정렬
+        List<String> genrePlayList = new ArrayList<>(playMap.keySet());
+        genrePlayList.sort((a,b) -> Integer.compare(playMap.get(b), playMap.get(a)));
+        
+        List<Integer> answer = new ArrayList<>();
+        for(String genre : genrePlayList){
+            answer.add(songMap.get(genre).get(0).id);
+            if(songMap.get(genre).size() > 1){
+                answer.add(songMap.get(genre).get(1).id);
             }
         }
-        
-        int[] answer = new int[answerList.size()];
-        for(int i = 0; i < answerList.size(); i++){
-            answer[i] = answerList.get(i);
-        }
-        
-        return answer;
+
+   
+        return answer.stream().mapToInt(x -> x.intValue()).toArray();
     }
 }
