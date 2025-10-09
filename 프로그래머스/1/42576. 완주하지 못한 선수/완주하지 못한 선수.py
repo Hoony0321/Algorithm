@@ -1,11 +1,16 @@
 from collections import defaultdict
-def solution(participants, completions):
+def solution(participant, completion):
     answer = ''
-    completionDict = defaultdict(int)
-    for key in completions:
-        completionDict[key] += 1
     
-    for participant in participants:
-        completionDict[participant] -= 1
-        if completionDict[participant] < 0:
-            return participant
+    compDict = defaultdict(int)
+    for c in completion:
+        compDict[c] += 1
+    
+    for p in participant:
+        compDict[p] -= 1
+        if compDict[p] < 0:
+            answer = p
+            break
+    
+    
+    return answer
