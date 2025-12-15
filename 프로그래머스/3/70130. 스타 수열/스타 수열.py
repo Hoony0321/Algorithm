@@ -1,45 +1,24 @@
+from collections import defaultdict
 def solution(a):
     answer = -1
+    a_dict = defaultdict(list)
     
-    def getStarSequence(num):
-        starSeq = []
-        seq = []
-        flag = False # num이 들어가있는지 에크
+    for i,num in enumerate(a):
+        a_dict[num].append(i) 
+    
+    for k,v in a_dict.items():
+        if answer >= len(v) * 2: continue
         
-        for elem in a:
-            if elem == num:
-                if len(seq) == 1 and flag:
-                    continue
-                else:
-                    seq.append(elem)
-                    flag = True    
-            else:
-                if len(seq) == 1 and flag:
-                    seq.append(elem)
-                elif len(seq) == 1 and not flag:
-                    continue
-                else:
-                    seq.append(elem)
-            
-            if len(seq) == 2:
-                starSeq += seq
-                flag = False
-                seq = []
+        cnt = 0
+        _a = a.copy()
+        for i in v:
+            if i > 0 and _a[i-1] != k:
+                cnt += 2
+                _a[i-1] = k
+            elif i < len(_a)-1 and _a[i+1] != k:
+                cnt += 2
+                _a[i+1] = k
         
-        return starSeq
-    
-    a_dict = dict()
-    for num in a:
-        if num in a_dict:
-            a_dict[num] += 1
-        else:
-            a_dict[num] = 1
-    
-    for num in a_dict.keys():
-        if answer >= a_dict[num] * 2:
-            continue
-        result = getStarSequence(num)
-        # print(result)
-        answer = max(answer, len(result))
+        answer = max(answer, cnt)
     
     return answer
